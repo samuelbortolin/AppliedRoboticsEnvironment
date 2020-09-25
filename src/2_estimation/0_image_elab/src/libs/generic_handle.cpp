@@ -1,5 +1,6 @@
 #include "generic_handle.hpp"
 #include "student_image_elab_interface.hpp"
+#include "professor_image_elab_interface.hpp"
 
 #include <assert.h>
 #include <cv_bridge/cv_bridge.h>
@@ -27,10 +28,10 @@ void GenericHandle::onInit(ros::NodeHandle &nodeHandle, std::string default_impl
 
     loadParameters();  
 
-    if(default_implementation_){
+    /*if(default_implementation_){
 
         std::exit(0);
-    }
+    }*/
     connectCb();
 }
 
@@ -80,9 +81,15 @@ void GenericHandle::imageCb(const sensor_msgs::ImageConstPtr& msg){
       return;
     }
     
-    try{     
-        ROS_DEBUG_NAMED(kPringName, "calling student implementation");    
-        student::genericImageListener(cv_ptr->image, camera_subscriber_topic_name_, config_folder_);
+    try{
+        if(default_implementation_){
+            ROS_DEBUG_NAMED(kPringName, "Call default function");
+            professor::genericImageListener(cv_ptr->image, camera_subscriber_topic_name_, config_folder_);
+        }else{
+            // CALL STUDENT FUNCTION    
+            ROS_DEBUG_NAMED(kPringName, "Call student function");
+            student::genericImageListener(cv_ptr->image, camera_subscriber_topic_name_, config_folder_);
+        }
     }catch(std::exception& ex){
         std::cerr << ex.what() << std::endl;
     }    
