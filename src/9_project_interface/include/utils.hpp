@@ -4,6 +4,7 @@
 #include <vector>
 #include <cmath>
 #include <cstddef>
+
 // A configuration of the robot along the path, represented by x, y, orientation and curvature
 struct Pose 
 {
@@ -58,4 +59,5 @@ struct Point
 typedef std::vector<Point> Polygon;
 
 
-#endif 
+#endif
+

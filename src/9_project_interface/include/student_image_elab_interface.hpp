@@ -4,7 +4,6 @@
 #include "utils.hpp"
 
 namespace student {
-
 /*!
 * This function can be used to replace the simulator camera and test the 
 * developed pipeline on a set of custom image
@@ -19,8 +18,7 @@ void loadImage(cv::Mat& image_out, const std::string& config_folder);
 * @param[in] topic          Topic from where the image is taken
 * @param[in] config_folder  A custom string from config file.
 */
-void genericImageListener(const cv::Mat& img_in, std::string topic, 
-                                      const std::string& config_folder);
+void genericImageListener(const cv::Mat& img_in, std::string topic, const std::string& config_folder);
 
 /*!
 * Finds arena pose from 3D(object_points)-2D(image_in) point correspondences.
@@ -31,9 +29,7 @@ void genericImageListener(const cv::Mat& img_in, std::string topic,
 * @param[out] tvec           Translation vectors estimated for the arena
 * @param[in]  config_folder  A custom string from config file.
 */
-bool extrinsicCalib(const cv::Mat& img_in, std::vector<cv::Point3f> object_points, 
-                    const cv::Mat& camera_matrix, cv::Mat& rvec, 
-                    cv::Mat& tvec, const std::string& config_folder);
+bool extrinsicCalib(const cv::Mat& img_in, std::vector<cv::Point3f> object_points, const cv::Mat& camera_matrix, cv::Mat& rvec, cv::Mat& tvec, const std::string& config_folder);
 
 /*!
 * Transforms an image to compensate for lens distortion.
@@ -43,9 +39,7 @@ bool extrinsicCalib(const cv::Mat& img_in, std::vector<cv::Point3f> object_point
 * @param[out] dist_coeffs    distortion coefficients [k1,k2,p1,p2,k3]
 * @param[in]  config_folder  A custom string from config file.
 */
-void imageUndistort(const cv::Mat& img_in, cv::Mat& img_out, 
-				            const cv::Mat& cam_matrix, const cv::Mat& dist_coeffs, 
-                    const std::string& config_folder);
+void imageUndistort(const cv::Mat& img_in, cv::Mat& img_out, const cv::Mat& cam_matrix, const cv::Mat& dist_coeffs, const std::string& config_folder);
 
 /*!
 * Calculates a perspective transform from four pairs of the corresponding points.
@@ -57,10 +51,7 @@ void imageUndistort(const cv::Mat& img_in, cv::Mat& img_out,
 * @param[out] plane_transf   plane perspective trasform (3x3 matrix)
 * @param[in]  config_folder  A custom string from config file.
 */
-void findPlaneTransform(const cv::Mat& cam_matrix, const cv::Mat& rvec, 
-                        const cv::Mat& tvec, const std::vector<cv::Point3f>& object_points_plane, 
-                        const std::vector<cv::Point2f>& dest_image_points_plane, 
-                        cv::Mat& plane_transf, const std::string& config_folder);
+void findPlaneTransform(const cv::Mat& cam_matrix, const cv::Mat& rvec, const cv::Mat& tvec, const std::vector<cv::Point3f>& object_points_plane, const std::vector<cv::Point2f>& dest_image_points_plane, cv::Mat& plane_transf, const std::string& config_folder);
 
 /*!
 * Applies a perspective transformation to an image.
@@ -69,8 +60,7 @@ void findPlaneTransform(const cv::Mat& cam_matrix, const cv::Mat& rvec,
 * @param[in]  transf         plane perspective trasform (3x3 matrix)
 * @param[in]  config_folder  A custom string from config file.
 */
-void unwarp(const cv::Mat& img_in, cv::Mat& img_out, const cv::Mat& transf, 
-            const std::string& config_folder);
+void unwarp(const cv::Mat& img_in, cv::Mat& img_out, const cv::Mat& transf, const std::string& config_folder);
 
 /*!
 * Process the image to detect victims, obtacles and the gate
@@ -81,10 +71,7 @@ void unwarp(const cv::Mat& img_in, cv::Mat& img_out, const cv::Mat& transf,
 * @param[out] gate           polygon representing the gate (vertex in meters)
 * @param[in]  config_folder  A custom string from config file.
 */
-bool processMap(const cv::Mat& img_in, const double scale, 
-                std::vector<Polygon>& obstacle_list, 
-                std::vector<std::pair<int,Polygon>>& victim_list, 
-                Polygon& gate, const std::string& config_folder);
+bool processMap(const cv::Mat& img_in, const double scale, std::vector<Polygon>& obstacle_list, std::vector<std::pair<int,Polygon>>& victim_list, Polygon& gate, const std::string& config_folder);
 
 /*!
 * Process the image to detect the robot pose
@@ -98,9 +85,8 @@ bool processMap(const cv::Mat& img_in, const double scale,
 * @param[out] theta          yaw of the robot in the arena reference system
 * @param[in]  config_folder  A custom string from config file.
 */
-bool findRobot(const cv::Mat& img_in, const double scale, Polygon& triangle, 
-              double& x, double& y, double& theta, const std::string& config_folder);
-
+bool findRobot(const cv::Mat& img_in, const double scale, Polygon& triangle, double& x, double& y, double& theta, const std::string& config_folder);
 
 //bool processGtMap(std::string file_name, std::vector<Polygon>& obstacle_list, std::vector<std::pair<int,Polygon>>& victim_list, Polygon& gate, Polygon& perimeter);
 }
+
