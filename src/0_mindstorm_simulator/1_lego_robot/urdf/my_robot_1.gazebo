@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot>
+
+  <gazebo>
+    <plugin name="lego_hardware" filename="libgazebo_ros_interface.so"> </plugin>
+  </gazebo>
+
+</robot>

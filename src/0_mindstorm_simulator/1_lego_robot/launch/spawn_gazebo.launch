@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <launch>
-  <!-- Robot pose -->
+  <!-- Robot default name -->
+  <arg name="robot_name" default="my_robot"/>
+  <!-- Robot default pose -->
   <arg name="x" default="0"/>
   <arg name="y" default="0"/>
   <arg name="z" default="0"/>
@@ -8,16 +10,30 @@
   <arg name="pitch" default="0"/>
   <arg name="yaw" default="0"/>
 
+  <!-- Load Robot Description -->
+
+  <!-- send urdf to param server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find lego_robot)/urdf/$(arg robot_name).xacro'" />
+
+  <!-- Send robot states to tf -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
+  
   <!-- Send fake joint values-->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="use_gui" value="false"/>
   </node>
-
+  
   <!-- Spawn My Robot -->
+
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
-        args="-urdf -param robot_description -model my_robot 
+        args="-urdf
+              -param robot_description
+              -model $(arg robot_name)
               -x $(arg x) -y $(arg y) -z $(arg z)
-              -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)">              
+              -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)">
   </node>
+
+ <!-- Send parameter to server -->
+ <!-- <rosparam ns="/namespaces" param="$(arg robot_name)" subst_value="true" > $(arg robot_name) </rosparam> -->
 
 </launch>

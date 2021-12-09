@@ -45,7 +45,7 @@ private:
   double scale_;
   double arena_w_, arena_h_;
 
-  std::vector<Polygon> obstacle_list_;
+  std::vector<Polygon> obstacle_list_, gate_list_;
   std::vector<std::pair<int,Polygon>> victim_list_;
   Polygon gate_;
   

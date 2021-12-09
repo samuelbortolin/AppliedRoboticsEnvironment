@@ -50,6 +50,8 @@ private:
   Polygon triangle_;
   double x_, y_, theta_;
 
+  std::string robot_ns_;
+
   // Callback
   void imageCb(const sensor_msgs::ImageConstPtr& image_msg);
   void transformCb(const image_elab::PlaneTransform& transf);

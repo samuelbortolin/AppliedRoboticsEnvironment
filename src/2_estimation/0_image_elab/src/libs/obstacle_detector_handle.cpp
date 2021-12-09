@@ -102,6 +102,7 @@ namespace image_proc {
         obstacle_list_.clear();
         victim_list_.clear();
         gate_.clear();
+        gate_list_.clear();
 
         if (!has_transform_) return;
 
@@ -128,7 +129,7 @@ namespace image_proc {
                 ROS_DEBUG_NAMED(kPringName, "Call default function");
 
                 // PROFESSOR FUNCTION IMPLEMENTATION
-                res = professor::processMap(cv_ptr->image, scale_, obstacle_list_, victim_list_, gate_, config_folder_);
+                res = professor::processMap(cv_ptr->image, scale_, obstacle_list_, gate_list_, config_folder_);
 
                  
             }else{
@@ -136,7 +137,7 @@ namespace image_proc {
                 ROS_DEBUG_NAMED(kPringName, "Call student function");
                 
                 // STUDENT FUNCTION IMPLEMENTATION
-                res = student::processMap(cv_ptr->image, scale_, obstacle_list_, victim_list_, gate_, config_folder_);
+                //res = student::processMap(cv_ptr->image, scale_, obstacle_list_, gate_list_, config_folder_);
             }
 
         }catch(std::exception& ex){
@@ -169,7 +170,26 @@ namespace image_proc {
 
             pub_obstacles_.publish(obstacles_array);
         }
-        
+
+        // Publish gates
+        if(gate_list_.size() > 0){
+            jsk_recognition_msgs::PolygonArray gate_array;
+            gate_array.header.stamp = msg->header.stamp;
+            gate_array.header.frame_id = frame_id_;
+            gate_array.header.seq = cnt++;
+            for (int i=0; i<gate_list_.size(); ++i) {
+                geometry_msgs::PolygonStamped poly;
+                poly.header = gate_array.header;
+                poly.header.seq = cnt++;
+                poly.polygon = createPolygon(gate_list_[i]);
+                gate_array.polygons.push_back(poly);
+                gate_array.labels.emplace_back(i);
+                gate_array.likelihood.emplace_back(1.0);
+            }
+
+            pub_gate_.publish(gate_array);
+        }
+
         // Publish detected victims
         if(victim_list_.size() > 0){
             jsk_recognition_msgs::PolygonArray victims_array;
@@ -229,7 +249,7 @@ namespace image_proc {
         }
 
 
-        if(gate_.size()>1){
+        /*if(gate_.size()>1){
             jsk_recognition_msgs::PolygonArray gate_array;
             gate_array.header.stamp = msg->header.stamp;
             gate_array.header.frame_id = frame_id_;
@@ -243,7 +263,7 @@ namespace image_proc {
             gate_array.likelihood.emplace_back(1.0);
 
             pub_gate_.publish(gate_array);
-        }        
+        }*/
 
         geometry_msgs::PolygonStamped poly_p;            
         geometry_msgs::Point32 pt;

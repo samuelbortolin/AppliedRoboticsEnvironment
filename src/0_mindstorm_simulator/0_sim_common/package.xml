@@ -2,9 +2,9 @@
 <package format="2">
   <name>sim_common</name>
   <version>0.0.0</version>
-  <description>The lego mindstorm simulator common definition used in the course of Laboratory of Applied Robotics (2018 - 2019) at the University of Trento</description>
+  <description>The lego mindstorm simulator common definition used in the course of Robot Planning and its application (2021 - 2022) at the University of Trento</description>
 
-  <maintainer email="valerio.magnagoo@unitn.it">Valerio Magnago</maintainer>
+  <maintainer email="alessandro.antonucci@unitn.it">Alessandro Antonucci</maintainer>
 
   <author email="valerio.magnagoo@unitn.it">Valerio Magnago</author>
   <author email="paolo.bevilacqua@unitn.it">Paolo Bevilacqua</author>

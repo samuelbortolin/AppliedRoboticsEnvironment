@@ -1,0 +1,554 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 0
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /MapFrame1
+        - /Detection1
+        - /Localization1/EKF1/Shape1
+        - /Localization1/GPS_measure1
+        - /Localization1/GPS_measure1/Shape1
+        - /Images1/UnwarpGroundPlane1
+        - /PlannedPath1/Namespaces1
+        - /FrenetPoint1
+        - /Robot 0 Odometry1/Shape1
+        - /Robot 1 Odometry1/Shape1
+        - /Robot 2 Odometry1/Shape1
+        - /Robot 0 PlannedPath1/Namespaces1
+      Splitter Ratio: 0.5
+    Tree Height: 853
+  - Class: rviz/Selection
+    Name: Selection
+  - Class: rviz/Tool Properties
+    Expanded:
+      - /2D Pose Estimate1
+      - /2D Nav Goal1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.588679016
+  - Class: rviz/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz/Time
+    Experimental: false
+    Name: Time
+    SyncMode: 0
+    SyncSource: Distorted
+Toolbars:
+  toolButtonStyle: 2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.0299999993
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Class: rviz/Axes
+      Enabled: true
+      Length: 0.300000012
+      Name: MapFrame
+      Radius: 0.00999999978
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: false
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+      Name: RobotModel
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: false
+      Visual Enabled: true
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 1
+          Class: jsk_rviz_plugin/PolygonArray
+          Color: 25; 255; 0
+          Enabled: false
+          Name: Victims
+          Topic: /detection/victims
+          Unreliable: false
+          Value: false
+          coloring: Flat color
+          enable lighting: true
+          normal length: 0.100000001
+          only border: false
+          show normal: false
+        - Alpha: 1
+          Class: jsk_rviz_plugin/PolygonArray
+          Color: 255; 0; 255
+          Enabled: true
+          Name: Gate
+          Topic: /detection/gate
+          Unreliable: false
+          Value: true
+          coloring: Flat color
+          enable lighting: true
+          normal length: 0.100000001
+          only border: true
+          show normal: false
+        - Alpha: 1
+          Class: jsk_rviz_plugin/PolygonArray
+          Color: 255; 0; 0
+          Enabled: true
+          Name: Obstacles
+          Topic: /detection/obstacles
+          Unreliable: false
+          Value: true
+          coloring: Flat color
+          enable lighting: true
+          normal length: 0.100000001
+          only border: false
+          show normal: false
+        - Alpha: 1
+          Class: rviz/Polygon
+          Color: 0; 0; 255
+          Enabled: true
+          Name: Robot
+          Topic: /detection/robot
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Class: jsk_rviz_plugin/PolygonArray
+          Color: 0; 0; 0
+          Enabled: true
+          Name: ArenaPerimeter
+          Topic: /detection/perimeter
+          Unreliable: false
+          Value: true
+          coloring: Flat color
+          enable lighting: true
+          normal length: 0.100000001
+          only border: true
+          show normal: false
+        - Class: rviz/MarkerArray
+          Enabled: false
+          Marker Topic: /detection/victims_numbers
+          Name: VictimsNumber
+          Namespaces:
+            {}
+          Queue Size: 100
+          Value: false
+      Enabled: true
+      Name: Detection
+    - Class: rviz/Group
+      Displays:
+        - Angle Tolerance: 0.100000001
+          Class: rviz/Odometry
+          Covariance:
+            Orientation:
+              Alpha: 0.5
+              Color: 255; 255; 127
+              Color Style: Unique
+              Frame: Local
+              Offset: 1
+              Scale: 1
+              Value: true
+            Position:
+              Alpha: 0.300000012
+              Color: 204; 51; 204
+              Scale: 1
+              Value: true
+            Value: false
+          Enabled: true
+          Keep: 1
+          Name: EKF
+          Position Tolerance: 0.100000001
+          Shape:
+            Alpha: 1
+            Axes Length: 1
+            Axes Radius: 0.100000001
+            Color: 255; 25; 0
+            Head Length: 0.0299999993
+            Head Radius: 0.0299999993
+            Shaft Length: 0.100000001
+            Shaft Radius: 0.00999999978
+            Value: Arrow
+          Topic: /estimation/map
+          Unreliable: false
+          Value: true
+        - Angle Tolerance: 0.100000001
+          Class: rviz/Odometry
+          Covariance:
+            Orientation:
+              Alpha: 0.5
+              Color: 255; 255; 127
+              Color Style: Unique
+              Frame: Local
+              Offset: 1
+              Scale: 1
+              Value: true
+            Position:
+              Alpha: 0.300000012
+              Color: 204; 51; 204
+              Scale: 1
+              Value: true
+            Value: true
+          Enabled: true
+          Keep: 100
+          Name: GPS_measure
+          Position Tolerance: 0.100000001
+          Shape:
+            Alpha: 1
+            Axes Length: 0.0199999996
+            Axes Radius: 0.00499999989
+            Color: 255; 25; 0
+            Head Length: 0.00800000038
+            Head Radius: 0.00800000038
+            Shaft Length: 0.00999999978
+            Shaft Radius: 0.00300000003
+            Value: Arrow
+          Topic: /estimation/pose_rviz
+          Unreliable: false
+          Value: true
+      Enabled: true
+      Name: Localization
+    - Alpha: 1
+      Axes Length: 0.100000001
+      Axes Radius: 0.0199999996
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.300000012
+      Head Radius: 0.100000001
+      Name: CameraPose
+      Shaft Length: 1
+      Shaft Radius: 0.0500000007
+      Shape: Axes
+      Topic: /estimation/camera_pose
+      Unreliable: false
+      Value: true
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Image
+          Enabled: false
+          Image Topic: /image/unwarp_robot
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: UnwarpRobotPlane
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: false
+        - Class: rviz/Image
+          Enabled: false
+          Image Topic: /image/unwarp_ground
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: UnwarpGroundPlane
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: true
+          Value: false
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: /image/raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Distorted
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: false
+          Image Topic: /image/rectify
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Undistorted
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: false
+      Enabled: true
+      Name: Images
+    - Class: rviz/MarkerArray
+      Enabled: false
+      Marker Topic: /planning/plan_rviz
+      Name: PlannedPath
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: false
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /control/frenet_rviz
+      Name: FrenetPoint
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 0; 0; 255
+      Enabled: true
+      Name: Robot 0
+      Topic: /my_robot_0/detection/robot
+      Unreliable: false
+      Value: true
+    - Angle Tolerance: 0.100000001
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.300000012
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Keep: 100
+      Name: Robot 0 Odometry
+      Position Tolerance: 0.100000001
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.100000001
+        Color: 255; 25; 0
+        Head Length: 0.00800000038
+        Head Radius: 0.00800000038
+        Shaft Length: 0.00999999978
+        Shaft Radius: 0.00300000003
+        Value: Arrow
+      Topic: /my_robot_0/estimation/pose_rviz
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 255; 255; 0
+      Enabled: true
+      Name: Robot 1
+      Topic: /my_robot_1/detection/robot
+      Unreliable: false
+      Value: true
+    - Angle Tolerance: 0.100000001
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.300000012
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Keep: 100
+      Name: Robot 1 Odometry
+      Position Tolerance: 0.100000001
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.100000001
+        Color: 255; 25; 0
+        Head Length: 0.00800000038
+        Head Radius: 0.00800000038
+        Shaft Length: 0.00999999978
+        Shaft Radius: 0.00300000003
+        Value: Arrow
+      Topic: /my_robot_1/estimation/pose_rviz
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 25; 255; 0
+      Enabled: true
+      Name: Robot 2
+      Topic: /my_robot_2/detection/robot
+      Unreliable: false
+      Value: true
+    - Angle Tolerance: 0.100000001
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.300000012
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Keep: 100
+      Name: Robot 2 Odometry
+      Position Tolerance: 0.100000001
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.100000001
+        Color: 255; 25; 0
+        Head Length: 0.00800000038
+        Head Radius: 0.00800000038
+        Shaft Length: 0.00999999978
+        Shaft Radius: 0.00300000003
+        Value: Arrow
+      Topic: /my_robot_2/estimation/pose_rviz
+      Unreliable: false
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /my_robot_0/planning/plan_rviz
+      Name: Robot 0 PlannedPath
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /my_robot_1/planning/plan_rviz
+      Name: Robot 1PlannedPath
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /my_robot_2/planning/plan_rviz
+      Name: Robot 2 PlannedPath
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 255; 255; 255
+    Default Light: true
+    Fixed Frame: map
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/FocusCamera
+    - Class: rviz/Measure
+    - Class: rviz/SetInitialPose
+      Topic: /initialpose
+    - Class: rviz/SetGoal
+      Topic: /move_base_simple/goal
+    - Class: rviz/PublishPoint
+      Single click: true
+      Topic: /clicked_point
+  Value: true
+  Views:
+    Current:
+      Class: rviz/ThirdPersonFollower
+      Distance: 2.11021686
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.0599999987
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: 0.759668112
+        Y: 0.287775755
+        Z: 5.66244125e-07
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.0500000007
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.00999999978
+      Pitch: 0.789795637
+      Target Frame: map
+      Value: ThirdPersonFollower (rviz)
+      Yaw: 4.56333876
+    Saved:
+      - Class: rviz/ThirdPersonFollower
+        Distance: 2.01115251
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.0599999987
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Focal Point:
+          X: 0.330725372
+          Y: 0.0831566602
+          Z: -4.76837158e-07
+        Focal Shape Fixed Size: true
+        Focal Shape Size: 0.0500000007
+        Invert Z Axis: false
+        Name: ThirdPersonFollower
+        Near Clip Distance: 0.00999999978
+        Pitch: 0.830721617
+        Target Frame: chassis
+        Value: ThirdPersonFollower (rviz)
+        Yaw: 4.11518288
+Window Geometry:
+  Displays:
+    collapsed: false
+  Distorted:
+    collapsed: false
+  Height: 1056
+  Hide Left Dock: false
+  Hide Right Dock: true
+  QMainWindow State: 000000ff00000000fd00000004000000000000022900000396fc020000000dfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006100fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c00430061006d00650072006100000001cf000001990000000000000000fb0000000c00430061006d00650072006100000002e70000014f0000000000000000fb000000100044006900730070006c006100790073010000002800000396000000d700fffffffb000000120044006900730074006f007200740065006403000002d3000000a400000132000000fffb000000160055006e0064006900730074006f0072007400650064020000042f000000a700000135000000f0fb000000220055006e007700610072007000470072006f0075006e00640050006c0061006e006502000005d60000016b00000108000000ca000000010000010f00000396fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000396000000ad00fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073f000000a9fc0100000002fb000000200055006e00770061007200700052006f0062006f00740050006c0061006e006502000005d90000008900000107000000ccfb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073f0000003efc0100000002fb0000000800540069006d006501000000000000073f0000030000fffffffb0000000800540069006d00650100000000000004500000000000000000000005100000039600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Undistorted:
+    collapsed: false
+  UnwarpGroundPlane:
+    collapsed: false
+  UnwarpRobotPlane:
+    collapsed: false
+  Views:
+    collapsed: true
+  Width: 1855
+  X: 65
+  Y: 24

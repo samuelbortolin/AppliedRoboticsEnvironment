@@ -2,7 +2,7 @@
 <launch>
 
   <!-- Load Configuration -->
-  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find project_interface)/rviz/config_file.rviz" />
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find project_interface)/rviz/config_file_multi.rviz" />
   
 </launch>
 

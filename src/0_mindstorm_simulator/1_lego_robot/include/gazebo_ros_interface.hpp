@@ -11,6 +11,8 @@
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <geometry_msgs/Twist.h>
 
+#include <string>
+
 namespace gazebo {
 
 class LegoModelPlugin : public ModelPlugin {
@@ -54,6 +56,11 @@ class LegoModelPlugin : public ModelPlugin {
     double x_car_, y_car_, yaw_car_, v_car_, yaw_r_car_;
 
     int update_from_last_cmd_;
+
+    std::string robot_ns_;
+    bool msg_sent = false;
+    bool initialized = false;
+
 
     // Measure covariance
     double measure_alpha_v_, measure_alpha_yaw_r_;

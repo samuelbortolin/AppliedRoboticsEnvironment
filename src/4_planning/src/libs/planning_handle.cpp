@@ -26,6 +26,10 @@ namespace planning {
         has_obstacles_ = false;
         has_gate_      = false;
         has_robot_     = false;
+        x_.resize(3);
+        y_.resize(3);
+        theta_.resize(3);
+        path_.resize(3);
     }
 
     void PlanningHandle::onInit(ros::NodeHandle &nodeHandle){
@@ -83,9 +87,15 @@ namespace planning {
         ROS_DEBUG_NAMED(kPringName, "Init publishers");
         assert (initialized_);
 
-        pub_plan_ = nh_.advertise<planning::WaypointList>(pub_plan_topic_name_, 1, true);
+        //pub_plan_ = nh_.advertise<planning::WaypointList>(pub_plan_topic_name_, 1, true);
+        pub_plan0_ = nh_.advertise<planning::WaypointList>("/my_robot_0" + pub_plan_topic_name_, 1, true);
+        pub_plan1_ = nh_.advertise<planning::WaypointList>("/my_robot_1" + pub_plan_topic_name_, 1, true);
+        pub_plan2_ = nh_.advertise<planning::WaypointList>("/my_robot_2" + pub_plan_topic_name_, 1, true);
         //pub_plan_rviz_ = nh_.advertise<nav_msgs::Path>(pub_plan_rviz_topic_name_, 1, true);
-        pub_plan_rviz_ = nh_.advertise<visualization_msgs::MarkerArray>(pub_plan_rviz_topic_name_, 1, true);        
+        //pub_plan_rviz_ = nh_.advertise<visualization_msgs::MarkerArray>(pub_plan_rviz_topic_name_, 1, true);        
+        pub_plan0_rviz_ = nh_.advertise<visualization_msgs::MarkerArray>("/my_robot_0" + pub_plan_rviz_topic_name_, 1, true);        
+        pub_plan1_rviz_ = nh_.advertise<visualization_msgs::MarkerArray>("/my_robot_1" + pub_plan_rviz_topic_name_, 1, true);        
+        pub_plan2_rviz_ = nh_.advertise<visualization_msgs::MarkerArray>("/my_robot_2" + pub_plan_rviz_topic_name_, 1, true);        
         pub_dt_ = nh_.advertise<std_msgs::Float32>(pub_dt_topic_name_, 1, true);
     }
 
@@ -93,10 +103,13 @@ namespace planning {
         ROS_DEBUG_NAMED(kPringName, "Init subscribers");
         assert (initialized_);
          
-        sub_victims_ = nh_.subscribe(sub_victims_topic_name_, queue_size_, &PlanningHandle::victimsCb, this);
+        //sub_victims_ = nh_.subscribe(sub_victims_topic_name_, queue_size_, &PlanningHandle::victimsCb, this);
         sub_obstacles_ = nh_.subscribe(sub_obstacles_topic_name_, queue_size_, &PlanningHandle::obstaclesCb, this);
-        sub_gate_ = nh_.subscribe(sub_gate_topic_name_, queue_size_, &PlanningHandle::gateCb, this);
-        sub_robot_ = nh_.subscribe(sub_robot_topic_name_, queue_size_, &PlanningHandle::robotCb, this);
+        sub_gate_ = nh_.subscribe(sub_gate_topic_name_, queue_size_, &PlanningHandle::gatesCb, this);
+        //sub_robot_ = nh_.subscribe(sub_robot_topic_name_, queue_size_, &PlanningHandle::robotCb, this);
+        sub_robot0_ = nh_.subscribe("/my_robot_0" + sub_robot_topic_name_, queue_size_, &PlanningHandle::robotCb0, this);
+        sub_robot1_ = nh_.subscribe("/my_robot_1" + sub_robot_topic_name_, queue_size_, &PlanningHandle::robotCb1, this);
+        sub_robot2_ = nh_.subscribe("/my_robot_2" + sub_robot_topic_name_, queue_size_, &PlanningHandle::robotCb2, this);
     }
 
     void PlanningHandle::initServices(){
@@ -116,9 +129,9 @@ namespace planning {
     }
         
 
-    void PlanningHandle::robotCb(const geometry_msgs::PoseStampedPtr robot_pose){
-        x_ = robot_pose->pose.position.x;
-        y_ = robot_pose->pose.position.y;
+    void PlanningHandle::robotCb0(const geometry_msgs::PoseStampedPtr robot_pose){
+        x0_ = robot_pose->pose.position.x;
+        y0_ = robot_pose->pose.position.y;
         tf::Quaternion q(robot_pose->pose.orientation.x, 
             robot_pose->pose.orientation.y, 
             robot_pose->pose.orientation.z, 
@@ -126,18 +139,46 @@ namespace planning {
         tf::Matrix3x3 m(q);
         double roll, pitch, yaw;
         m.getRPY(roll, pitch, yaw);
-        theta_ = yaw;
+        theta0_ = yaw;
         has_robot_ = true;
     }
 
-    void PlanningHandle::victimsCb(const jsk_recognition_msgs::PolygonArrayPtr victims){
+    void PlanningHandle::robotCb1(const geometry_msgs::PoseStampedPtr robot_pose){
+        x1_ = robot_pose->pose.position.x;
+        y1_ = robot_pose->pose.position.y;
+        tf::Quaternion q(robot_pose->pose.orientation.x, 
+            robot_pose->pose.orientation.y, 
+            robot_pose->pose.orientation.z, 
+            robot_pose->pose.orientation.w);
+        tf::Matrix3x3 m(q);
+        double roll, pitch, yaw;
+        m.getRPY(roll, pitch, yaw);
+        theta1_ = yaw;
+        //has_robot_ = true;
+    }
+
+    void PlanningHandle::robotCb2(const geometry_msgs::PoseStampedPtr robot_pose){
+        x2_ = robot_pose->pose.position.x;
+        y2_ = robot_pose->pose.position.y;
+        tf::Quaternion q(robot_pose->pose.orientation.x, 
+            robot_pose->pose.orientation.y, 
+            robot_pose->pose.orientation.z, 
+            robot_pose->pose.orientation.w);
+        tf::Matrix3x3 m(q);
+        double roll, pitch, yaw;
+        m.getRPY(roll, pitch, yaw);
+        theta2_ = yaw;
+        //has_robot_ = true;
+    }
+
+    /*void PlanningHandle::victimsCb(const jsk_recognition_msgs::PolygonArrayPtr victims){
         victim_list_.clear();
         for (int i=0; i<victims->polygons.size(); ++i){
             const auto & poly = victims->polygons[i].polygon;
             victim_list_.emplace_back(victims->labels[i], createPolygon(poly));
         }
         has_victims_ = true;
-    }
+    }*/
 
     void PlanningHandle::obstaclesCb(const jsk_recognition_msgs::PolygonArrayPtr obstacles){
         obstacle_list_.clear();
@@ -148,15 +189,23 @@ namespace planning {
         has_obstacles_ = true;
     }
 
-    void PlanningHandle::gateCb(const jsk_recognition_msgs::PolygonArrayPtr gate){
+    /*void PlanningHandle::gateCb(const jsk_recognition_msgs::PolygonArrayPtr gate){
         gate_.clear();
         if (gate->polygons.size() != 1) {
             throw std::runtime_error("Gate size != 1: " + std::to_string(gate->polygons.size()));
         }
         gate_ = createPolygon(gate->polygons[0].polygon);
         has_gate_ = true;
-    }
+    }*/
 
+    void PlanningHandle::gatesCb(const jsk_recognition_msgs::PolygonArrayPtr gates){
+        gate_list_.clear();
+        for (const auto & poly: gates->polygons){
+            gate_list_.emplace_back(createPolygon(poly.polygon));
+        }
+        header_ = gates->header;
+        has_gate_ = true;
+    }
 
 
     WaypointList createWPList(const Path& path, const std_msgs::Header& header){
@@ -296,30 +345,41 @@ namespace planning {
     // }
 
     bool PlanningHandle::computePlanSrv(ComputePlan::Request& req, ComputePlan::Response& res){
-        path_.points.clear();
-        if (!has_gate_ || !has_obstacles_ || !has_victims_ || !has_robot_) {
+        for (auto & p: path_){ 
+            p.points.clear();
+        }
+        if (!has_gate_ || !has_obstacles_ || !has_robot_) {
             res.status = -1; 
         }
         else {
             bool ok = false;
+            x_ = {x0_, x1_, x2_};
+            y_ = {y0_, y1_, y2_};
+            theta_ = {theta0_, theta1_, theta2_};
             try{
                 if(default_implementation_){
                     ROS_DEBUG_NAMED(kPringName, "Call default function");
-                    ok = professor::planPath(borders_, obstacle_list_, victim_list_, gate_, x_, y_, theta_, path_, config_folder_);
+                    ok = professor::planPath(borders_, obstacle_list_, gate_list_, x_, y_, theta_, path_, config_folder_);
                 }else{
                     // CALL STUDENT FUNCTION    
                     ROS_DEBUG_NAMED(kPringName, "Call student function");
-                    ok = student::planPath(borders_, obstacle_list_, victim_list_, gate_, x_, y_, theta_, path_, config_folder_);
+                    //ok = student::planPath(borders_, obstacle_list_, gate_list_, x_, y_, theta_, path_, config_folder_);
                 }
             }catch(std::exception& ex){
                 std::cerr << ex.what() << std::endl;
             }
-
+ 
             if (ok) {
                 res.status = 0;
-                res.wp = createWPList(path_, header_);
-                pub_plan_.publish(res.wp);
-                pub_plan_rviz_.publish(createRVIZPath(res.wp));
+                res.wp0 = createWPList(path_[0], header_);
+                pub_plan0_.publish(res.wp0);
+                pub_plan0_rviz_.publish(createRVIZPath(res.wp0));
+                res.wp1 = createWPList(path_[1], header_);
+                pub_plan1_.publish(res.wp1);
+                pub_plan1_rviz_.publish(createRVIZPath(res.wp1));
+                res.wp2 = createWPList(path_[2], header_);
+                pub_plan2_.publish(res.wp2);
+                pub_plan2_rviz_.publish(createRVIZPath(res.wp2));
             }
             else {
                 res.status = -2;
