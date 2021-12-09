@@ -234,14 +234,15 @@ namespace professor {
     
     // Find red regions: h values around 0 (positive and negative angle: [0,15] U [160,179])
     cv::Mat red_mask_low, red_mask_high, red_mask;     
-    cv::inRange(hsv_img, cv::Scalar(0, 102, 86), cv::Scalar(30, 255, 255), red_mask_low);
-    cv::inRange(hsv_img, cv::Scalar(164, 102, 86), cv::Scalar(180, 255, 255), red_mask_high);
-    cv::addWeighted(red_mask_low, 1.0, red_mask_high, 1.0, 0.0, red_mask); 
+    cv::inRange(hsv_img, cv::Scalar(0, 40, 40), cv::Scalar(15, 255, 255), red_mask_low);
+    cv::inRange(hsv_img, cv::Scalar(163, 40, 40), cv::Scalar(180, 255, 255), red_mask_high);
+    cv::add(red_mask_low, red_mask_high, red_mask); 
 
     // cv::Mat img_small;
     // cv::resize(red_mask, img_small, cv::Size(640, 512));
+    //cv::imshow("obstacles", red_mask);
+    //cv::waitKey(1);
 
-    
     std::vector<std::vector<cv::Point>> contours, contours_approx;
     std::vector<cv::Point> approx_curve;
     cv::Mat contours_img;
@@ -397,7 +398,7 @@ namespace professor {
       cv::inRange(hsv_img, cv::Scalar(90, 50, 50), cv::Scalar(140, 255, 255), robot_mask);
     } else if (ns == "/my_robot_1") {
       // Robot 1 yellow
-      cv::inRange(hsv_img, cv::Scalar(22, 93, 0), cv::Scalar(45, 255, 255), robot_mask);
+      cv::inRange(hsv_img, cv::Scalar(15, 0, 0), cv::Scalar(36, 255, 255), robot_mask);
     } else if (ns == "/my_robot_2") {
       // Robot 2 green
       cv::inRange(hsv_img, cv::Scalar(45, 50, 26), cv::Scalar(100, 255, 255), robot_mask);
@@ -408,12 +409,12 @@ namespace professor {
     std::vector<cv::Point> approx_curve;
     cv::findContours(robot_mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
-    // cv::imshow("filterrrr", blue_mask);
-    // cv::waitKey(1);
-    // cv::Mat contours_img;
-    // contours_img = hsv_img.clone();
-    // drawContours(contours_img, contours, -1, cv::Scalar(0,0,0), 4, cv::LINE_AA);
-    // std::cout << "N. contours: " << contours.size() << std::endl;
+    //cv::imshow("filterrrr"+ns, robot_mask);
+    //cv::waitKey(1);
+    //cv::Mat contours_img;
+    //contours_img = hsv_img.clone();
+    //drawContours(contours_img, contours, -1, cv::Scalar(0,0,0), 4, cv::LINE_AA);
+    //std::cout << "N. contours: " << contours.size() << std::endl;
      
     bool found = false;  
     for (int i=0; i<contours.size(); ++i) {
