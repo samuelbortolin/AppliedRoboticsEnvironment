@@ -502,43 +502,17 @@ namespace professor {
                  const std::vector<float> x, const std::vector<float> y, const std::vector<float> theta,
                  std::vector<Path>& path, const std::string& config_folder){
 
-    /*int first_robot, second_robot;
-    bool loopa = true;
-    while (loopa) {
-      first_robot  = 0 + rand() % 3;
-      second_robot = 0 + rand() % 3;
-      if (first_robot != second_robot) loopa = false;
-    }
-    std::cout << "robots: " << first_robot << " " << second_robot << std::endl;*/
-    
-
     float ds = 0.05;
-    //int curvature = rand() % 2 + (-1);
 
+    // fake path for 0 and 1
     for (float l=0, s=0; l<3; l++, s+=ds) {
       path[0].points.emplace_back(s, x[0]+ds*l, y[0], 0.0, 0.0);
     }
     for (float l=0, s=0; l<10; l++, s+=ds) {
       path[1].points.emplace_back(s, x[1]+ds*l, y[1], 0.0, 0.0);
     }
-    //for (float l=0, s=0; l<5; l++, s+=ds) {
-    //  path[2].points.emplace_back(s, x[2], y[2]+ds*l, 0.0, 0.0);
-    //}
-    
-    /*for (int r=0; r<3; r++) {
-      std::cout << "Path " << r << std::endl;
-      for (int l=0; l<path[r].points.size(); l++) {
-        std::cout << "x: " << path[r].points[l].x << " y: " << path[r].points[l].y << std::endl;
-      }
-    }*/   
+    // no path for 2
 
-    /*
-    float xc = 0, yc = 1.5, r = 1.4;
-    float ds = 0.05;
-    for (float theta = -M_PI/2, s = 0; theta<(-M_PI/2 + 1.2); theta+=ds/r, s+=ds) {
-      path.points.emplace_back(s, x[1]+r*std::cos(theta), y[1]+r*std::sin(theta), theta+M_PI/2, 1./r);    
-    }
-    */
 
     return true;
   }
