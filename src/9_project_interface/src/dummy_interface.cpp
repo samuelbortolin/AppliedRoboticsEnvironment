@@ -32,16 +32,18 @@ namespace student {
     throw std::logic_error( "STUDENT FUNCTION - UNWRAP - NOT LOADED" );   
   }
 
-  bool processMap(const cv::Mat& img_in, const double scale, std::vector<Polygon>& obstacle_list, std::vector<std::pair<int,Polygon>>& victim_list, Polygon& gate, const std::string& config_folder){
-    throw std::logic_error( "STUDENT FUNCTION - PROCESS MAP - NOT LOADED" );   
+ bool processMap(const cv::Mat& img_in, const double scale, std::vector<Polygon>& obstacle_list, std::vector<Polygon>& gate_list, const std::string& config_folder){
+   throw std::logic_error( "STUDENT FUNCTION - PROCESS MAP - NOT LOADED" );   
   }
 
-  bool findRobot(const cv::Mat& img_in, const double scale, Polygon& triangle, double& x, double& y, double& theta, const std::string& config_folder){
+  bool findRobot(const cv::Mat& img_in, const double scale, Polygon& triangle, double& x, double& y, double& theta, const std::string ns, const std::string& config_folder){
     throw std::logic_error( "STUDENT FUNCTION - FIND ROBOT - NOT LOADED" );    
   }
 
-  bool planPath(const Polygon& borders, const std::vector<Polygon>& obstacle_list, const std::vector<std::pair<int,Polygon>>& victim_list, const Polygon& gate, const float x, const float y, const float theta, Path& path, const std::string& config_folder){
-    throw std::logic_error( "STUDENT FUNCTION - PLAN PATH - NOT LOADED" );     
+  bool planPath(const Polygon& borders, const std::vector<Polygon>& obstacle_list, const std::vector<Polygon>& gate_list, 
+                 const std::vector<float> x, const std::vector<float> y, const std::vector<float> theta,
+                 std::vector<Path>& path, const std::string& config_folder){
+                  throw std::logic_error( "STUDENT FUNCTION - PLAN PATH - NOT LOADED" );     
   }
 
 

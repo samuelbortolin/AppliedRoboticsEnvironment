@@ -521,9 +521,9 @@ namespace professor {
     for (float l=0, s=0; l<10; l++, s+=ds) {
       path[1].points.emplace_back(s, x[1]+ds*l, y[1], 0.0, 0.0);
     }
-    for (float l=0, s=0; l<5; l++, s+=ds) {
-      path[2].points.emplace_back(s, x[2], y[2]+ds*l, 0.0, 0.0);
-    }
+    //for (float l=0, s=0; l<5; l++, s+=ds) {
+    //  path[2].points.emplace_back(s, x[2], y[2]+ds*l, 0.0, 0.0);
+    //}
     
     /*for (int r=0; r<3; r++) {
       std::cout << "Path " << r << std::endl;
