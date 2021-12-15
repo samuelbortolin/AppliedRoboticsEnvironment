@@ -363,7 +363,7 @@ namespace planning {
                 }else{
                     // CALL STUDENT FUNCTION    
                     ROS_DEBUG_NAMED(kPringName, "Call student function");
-                    //ok = student::planPath(borders_, obstacle_list_, gate_list_, x_, y_, theta_, path_, config_folder_);
+                    ok = student::planPath(borders_, obstacle_list_, gate_list_, x_, y_, theta_, path_, config_folder_);
                 }
             }catch(std::exception& ex){
                 std::cerr << ex.what() << std::endl;

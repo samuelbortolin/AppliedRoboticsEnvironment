@@ -137,7 +137,7 @@ namespace image_proc {
                 ROS_DEBUG_NAMED(kPringName, "Call student function");
                 
                 // STUDENT FUNCTION IMPLEMENTATION
-                //res = student::processMap(cv_ptr->image, scale_, obstacle_list_, gate_list_, config_folder_);
+                res = student::processMap(cv_ptr->image, scale_, obstacle_list_, gate_list_, config_folder_);
             }
 
         }catch(std::exception& ex){

@@ -134,7 +134,7 @@ namespace image_proc {
                 ROS_DEBUG_NAMED(kPringName, "Call student function");
                 
                 // STUDENT FUNCTION IMPLEMENTATION
-                res = student::findRobot(cv_ptr->image, scale_, triangle_, x_, y_, theta_, config_folder_);
+                res = student::findRobot(cv_ptr->image, scale_, triangle_, x_, y_, theta_, robot_ns_, config_folder_);
             }
 
         }catch(std::exception& ex){
