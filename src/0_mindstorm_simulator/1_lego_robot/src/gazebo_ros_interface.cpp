@@ -9,8 +9,29 @@
 #include <mutex>
 #include <thread>
 
+#include <string>
+
 #include <nav_msgs/Odometry.h>
 #include <geometry_msgs/TwistWithCovarianceStamped.h>
+
+#include <ctime>
+#include <iostream>
+#include <unistd.h>
+
+std::string gen_random(const int len) {
+    static const char alphanum[] =
+        "0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz";
+    std::string tmp_s;
+    tmp_s.reserve(len);
+
+    for (int i = 0; i < len; ++i) {
+        tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
+    }
+    
+    return tmp_s;
+}
 
 namespace gazebo {
 
@@ -33,7 +54,7 @@ LegoModelPlugin::LegoModelPlugin():
 {
     int  argc  = 0;
     char *argv = nullptr;
-    ros::init(argc, &argv, "LegoModelPlugin");
+    ros::init(argc, &argv, "LegoModelPlugin"+gen_random(10));
     update_from_last_cmd_ = 0;
     publish_tf_ = true;
     measure_alpha_v_   = measure_alpha_yaw_r_ = 0.01;     // 1% noise
@@ -41,20 +62,21 @@ LegoModelPlugin::LegoModelPlugin():
 
     map_frame_id_ = "map";
     robot_frame_id_ = "robot_footprint";
-    
+
     nh_ = ros::NodeHandle();
-    sub_set_pose_ = nh_.subscribe("/initialpose", 1, &LegoModelPlugin::initialPoseCb, this);
-    sub_twist_ = nh_.subscribe("/control/cmd_vel",1, &LegoModelPlugin::setTwistCb, this);
+    
+    /*
+    sub_set_pose_ = nh_.subscribe(robot_ns_ + "initialpose", 1, &LegoModelPlugin::initialPoseCb, this);
+    sub_twist_ = nh_.subscribe(robot_ns_ + "control/cmd_vel",1, &LegoModelPlugin::setTwistCb, this);
 
-    pub_twist_ = nh_.advertise<geometry_msgs::TwistWithCovarianceStamped>("/sensor/twist", 1, true);
-
-    pub_ideal_odom_ = nh_.advertise<nav_msgs::Odometry>("/ideal/odom", 1, true);
+    pub_twist_ = nh_.advertise<geometry_msgs::TwistWithCovarianceStamped>(robot_ns_ + "sensor/twist", 1, true);
+    pub_ideal_odom_ = nh_.advertise<nav_msgs::Odometry>(robot_ns_ + "ideal/odom", 1, true);
 
     // Listen to the update event. This event is broadcast every
     // simulation iteration.
     updateConnection_ = event::Events::ConnectWorldUpdateBegin(
-          std::bind(&LegoModelPlugin::onUpdate, this));
-
+        std::bind(&LegoModelPlugin::onUpdate, this));
+    */
 }
 
 void LegoModelPlugin::setTwistCb(geometry_msgs::TwistConstPtr twist){    
@@ -109,6 +131,19 @@ void LegoModelPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     model_ = _model;
     world_ = model_->GetWorld();
 
+    //std::string ns_ = ros::this_node::getNamespace();
+    //nh_.getParam("ns", ns);
+    //nh_ = ros::NodeHandle();
+    robot_ns_ = _sdf->Get<std::string>("robotNamespace");
+
+    sub_set_pose_ = nh_.subscribe(robot_ns_ + "initialpose", 1, &LegoModelPlugin::initialPoseCb, this);
+    sub_twist_ = nh_.subscribe(robot_ns_ + "control/cmd_vel",1, &LegoModelPlugin::setTwistCb, this);
+
+    pub_twist_ = nh_.advertise<geometry_msgs::TwistWithCovarianceStamped>(robot_ns_ + "sensor/twist", 1, true);
+    pub_ideal_odom_ = nh_.advertise<nav_msgs::Odometry>(robot_ns_ + "ideal/odom", 1, true);
+
+    updateConnection_ = event::Events::ConnectWorldUpdateBegin(
+        std::bind(&LegoModelPlugin::onUpdate, this));
 }
 
 void LegoModelPlugin::Reset() 
@@ -129,8 +164,8 @@ void LegoModelPlugin::onUpdate()
 {   
     const double v_EPS = 0.001;
     const double max_k = 1/10; // max curvature 1/m
-    static bool msg_sent = false; 
-    static bool initialized = false;
+    //static bool msg_sent = false; 
+    //static bool initialized = false;
     if(!initialized){
         gazebo::math::Pose pose;     
         pose = model_->GetWorldPose();
@@ -139,13 +174,14 @@ void LegoModelPlugin::onUpdate()
         yaw_car_   = pose.rot.GetYaw();
         initialized = true;
     }
+
     std::lock_guard<std::mutex> lock(mtx_);
     common::Time curTime = world_->GetSimTime();
     double dt = 0.0;
     if (!isLoopTime(curTime, dt)) {
         return;
     }
-       
+
     if(update_from_last_cmd_ > 20){        
         if(!msg_sent){
             gzwarn << "Setting speed to 0 not reciving cmd" << std::endl;
@@ -182,10 +218,8 @@ void LegoModelPlugin::onUpdate()
     setModelState();
     publishInfo();   
     update_from_last_cmd_++;
-
-
-
 }
+
 void LegoModelPlugin::publishInfo(){
     static tf2_ros::TransformBroadcaster odom_broadcaster;
     

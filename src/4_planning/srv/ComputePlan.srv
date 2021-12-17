@@ -1,4 +1,7 @@
 ---
 int32 status  # -1: not ready yet, 0: ok, -2: failed planning
 WaypointList wp 
+WaypointList wp0 
+WaypointList wp1 
+WaypointList wp2 
 

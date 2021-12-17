@@ -6,4 +6,7 @@ float32 travel_time
 #feedback
 string status
 float32 s_done
-float32 s_tot
+float32 s_tot0
+float32 s_tot1
+float32 s_tot2
+

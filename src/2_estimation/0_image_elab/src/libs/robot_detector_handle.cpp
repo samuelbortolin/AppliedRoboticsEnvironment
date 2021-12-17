@@ -70,16 +70,21 @@ namespace image_proc {
         pub_dt_topic_name_      = "/process_time/findRobot";
 
         frame_id_ = "map";
+
+        robot_ns_ = nh_.getNamespace();
+        std::string to_remove = "/robot_detector";
+        size_t to_remove_pos = robot_ns_.find(to_remove);
+        robot_ns_ = robot_ns_.erase(to_remove_pos, to_remove.length());
     }
 
     void RobotDetectorHandle::publishToTopics() {
         ROS_DEBUG_NAMED(kPringName, "Init publishers");
         assert (initialized_);
 
-        pub_robot_ = nh_.advertise<geometry_msgs::PolygonStamped>(pub_robot_topic_name_, 1, false);
-        pub_gps_loc_ = nh_.advertise<geometry_msgs::PoseStamped>(pub_gps_loc_topic_name_, 1, false);
-        pub_gps_odom_ = nh_.advertise<nav_msgs::Odometry>(pub_gps_odom_topic_name_, 1, false);
-        pub_dt_ = nh_.advertise<std_msgs::Float32>(pub_dt_topic_name_, 1, false);
+        pub_robot_ = nh_.advertise<geometry_msgs::PolygonStamped>(robot_ns_ + pub_robot_topic_name_, 1, false);
+        pub_gps_loc_ = nh_.advertise<geometry_msgs::PoseStamped>(robot_ns_ + pub_gps_loc_topic_name_, 1, false);
+        pub_gps_odom_ = nh_.advertise<nav_msgs::Odometry>(robot_ns_ + pub_gps_odom_topic_name_, 1, false);
+        pub_dt_ = nh_.advertise<std_msgs::Float32>(robot_ns_ + pub_dt_topic_name_, 1, false);
     }
 
     void RobotDetectorHandle::subscribeToTopic() {
@@ -121,7 +126,7 @@ namespace image_proc {
                 ROS_DEBUG_NAMED(kPringName, "Call default function");
 
                 // PROFESSOR FUNCTION IMPLEMENTATION
-                res = professor::findRobot(cv_ptr->image, scale_, triangle_, x_, y_, theta_, config_folder_);
+                res = professor::findRobot(cv_ptr->image, scale_, triangle_, x_, y_, theta_, robot_ns_, config_folder_);
 
                  
             }else{
@@ -129,7 +134,7 @@ namespace image_proc {
                 ROS_DEBUG_NAMED(kPringName, "Call student function");
                 
                 // STUDENT FUNCTION IMPLEMENTATION
-                res = student::findRobot(cv_ptr->image, scale_, triangle_, x_, y_, theta_, config_folder_);
+                res = student::findRobot(cv_ptr->image, scale_, triangle_, x_, y_, theta_, robot_ns_, config_folder_);
             }
 
         }catch(std::exception& ex){

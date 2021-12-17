@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 
+  <!-- Number of robots -->
+  <arg name="n" default="1"/>
+
   <!-- Load Configuration -->
   <include file="$(find project_interface)/launch/load_params.launch"/>
 
   <!-- Start pipeline -->
-  <include file="$(find image_elab)/launch/node_image_pipeline.launch"/>
+  <include file="$(find image_elab)/launch/node_image_pipeline.launch">
+    <arg name="n" value="$(arg n)"/> 
+  </include>
 
   <node name="localization" pkg="localization" type="localization_node" respawn="true" output="screen"/>
-
-  <node name="odometry" pkg="localization" type="odometry_node" respawn="true" output="screen"/>
-  
-  <node name="planning" pkg="planning" type="planning_node" respawn="false" output="screen"/>
-
-  <node name="control" pkg="control" type="control_node" respawn="false" output="screen"/>  
+  <node name="odometry" pkg="localization" type="odometry_node" respawn="true" output="screen"/>  
+  <node name="planning" pkg="planning" type="planning_node" respawn="false" output="screen"/>  
+  <node name="control" pkg="control" type="control_node" respawn="false" output="screen" />
   
 </launch>
 

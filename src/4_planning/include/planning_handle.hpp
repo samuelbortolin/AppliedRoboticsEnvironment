@@ -36,7 +36,9 @@ private:
   
   // ROS communication  
   ros::Subscriber sub_victims_, sub_obstacles_, sub_gate_, sub_robot_;
+  ros::Subscriber sub_robot0_, sub_robot1_, sub_robot2_;
   ros::Publisher  pub_plan_, pub_dt_, pub_plan_rviz_;
+  ros::Publisher  pub_plan0_, pub_plan1_, pub_plan2_, pub_plan0_rviz_, pub_plan1_rviz_, pub_plan2_rviz_;
   ros::ServiceServer srv_plan_;
   bool has_victims_, has_obstacles_, has_gate_, has_robot_;
 
@@ -45,19 +47,23 @@ private:
   std::string pub_plan_topic_name_, pub_dt_topic_name_, pub_plan_rviz_topic_name_;
   std::string srv_plan_topic_name_;
 
-  std::vector<Polygon> obstacle_list_;
-  std::vector<std::pair<int,Polygon>> victim_list_;
+  std::vector<Polygon> obstacle_list_, gate_list_;
+  //std::vector<std::pair<int,Polygon>> victim_list_;
   Polygon gate_, borders_;
-  double x_, y_, theta_;
-  Path path_;
+  std::vector<float> x_, y_, theta_;
+  double x0_, x1_, x2_, y0_, y1_, y2_, theta0_, theta1_, theta2_;
+  std::vector<Path> path_;
 
   std_msgs::Header header_;
 
   // Callback
-  void robotCb(const geometry_msgs::PoseStampedPtr robot_pose);
+  void robotCb0(const geometry_msgs::PoseStampedPtr robot_pose);
+  void robotCb1(const geometry_msgs::PoseStampedPtr robot_pose);
+  void robotCb2(const geometry_msgs::PoseStampedPtr robot_pose);
   void victimsCb(const jsk_recognition_msgs::PolygonArrayPtr victims);
   void obstaclesCb(const jsk_recognition_msgs::PolygonArrayPtr obstacles);
   void gateCb(const jsk_recognition_msgs::PolygonArrayPtr gate);
+  void gatesCb(const jsk_recognition_msgs::PolygonArrayPtr gates);
 
   // Service
   bool computePlanSrv(ComputePlan::Request& req, ComputePlan::Response& res);
