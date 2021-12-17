@@ -210,7 +210,7 @@ namespace professor {
 	bool processObstacles(const cv::Mat& hsv_img, const double scale, std::vector<Polygon>& obstacle_list){
 		// Find red regions: h values around 0 (positive and negative angle: [0,15] U [160,179])
 		cv::Mat red_mask_low, red_mask_high, red_mask;
-		cv::inRange(hsv_img, cv::Scalar(0, 40, 40)), cv::Scalar(15, 255, 255), red_mask_low);
+		cv::inRange(hsv_img, cv::Scalar(0, 40, 40), cv::Scalar(15, 255, 255), red_mask_low);
 		cv::inRange(hsv_img, cv::Scalar(163, 40, 40), cv::Scalar(180, 255, 255), red_mask_high);
 		cv::add(red_mask_low, red_mask_high, red_mask);
 
