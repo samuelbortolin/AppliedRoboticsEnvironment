@@ -214,7 +214,7 @@ namespace control {
             }
 
             for (int robot=0; robot<3; robot++) {
-                if (path_[robot].points.empty()) {
+                if (path_[robot].points.empty() || finito[robot]) {
                     finito[robot] = true;
                     continue;
                 }
