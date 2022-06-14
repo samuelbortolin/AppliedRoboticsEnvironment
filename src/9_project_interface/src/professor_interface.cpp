@@ -458,16 +458,16 @@ namespace professor {
 	}
 
 	bool planPath(const Polygon& borders, const std::vector<Polygon>& obstacle_list, const std::vector<Polygon>& gate_list, const std::vector<float> x, const std::vector<float> y, const std::vector<float> theta, std::vector<Path>& path, const std::string& config_folder){
-		float ds = 0.05;
-
-        // fake path for 0 and 1
-        for(float l=0, s=0; l<3; l++, s+=ds){
-            path[0].points.emplace_back(s, x[0]+ds*l, y[0], 0.0, 0.0);
-        }
-        for(float l=0, s=0; l<10; l++, s+=ds){
-            path[1].points.emplace_back(s, x[1]+ds*l, y[1], 0.0, 0.0);
-        }
-        // no path for 2
+		float ds = 50;
+		std::cout << "fake path for 0 and 1";
+		// fake path for 0 and 1
+		for(float l=0, s=0; l<3; l++, s+=ds){
+		    path[0].points.emplace_back(s, x[0]+ds*l, y[0], theta[0], 0.0);
+		}
+		for(float l=0, s=0; l<10; l++, s+=ds){
+		    path[1].points.emplace_back(s, x[1]+ds*l, y[1], theta[1], 0.0);
+		}
+		// no path for 2
 
 		return true;
 	}
