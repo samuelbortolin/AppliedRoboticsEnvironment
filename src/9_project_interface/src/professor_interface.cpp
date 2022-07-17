@@ -13,10 +13,6 @@
 #include <sstream>
 
 namespace professor {
-	bool processGtMap(std::string file_name, std::vector<Polygon>& obstacle_list, std::vector<std::pair<int,Polygon>>& victim_list, Polygon& gate, Polygon& perimeter){
-		throw std::logic_error( "PROFESSOR FUNCTION NOT IMPLEMENTED" );
-	}
-
 	//-------------------------------------------------------------------------
 	//          GENERIC IMAGE LISTENER IMPLEMENTATION
 	//-------------------------------------------------------------------------
@@ -292,47 +288,6 @@ namespace professor {
 		return res;
 	}
 
-	bool processVictims(const cv::Mat& hsv_img, const double scale, std::vector<std::pair<int,Polygon>>& victim_list){
-		// Find green regions
-		cv::Mat green_mask;
-
-		cv::inRange(hsv_img, cv::Scalar(45, 50, 26), cv::Scalar(100, 255, 255), green_mask);
-
-		std::vector<std::vector<cv::Point>> contours, contours_approx;
-		std::vector<cv::Point> approx_curve;
-		//cv::Mat contours_img;
-
-		// Process red mask
-		// contours_img = hsv_img.clone();
-		cv::findContours(green_mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-		// drawContours(contours_img, contours, -1, cv::Scalar(40,190,40), 1, cv::LINE_AA);
-		// std::cout << "N. contours: " << contours.size() << std::endl;
-		int victim_id = 0;
-		for(int i=0; i<contours.size(); ++i){
-			const double area = cv::contourArea(contours[i]);
-
-			if(area < 500) continue;
-
-			// std::cout << (i+1) << ") Contour size: " << contours[i].size() << std::endl;
-			approxPolyDP(contours[i], approx_curve, 10, true);
-			if(approx_curve.size() < 6) continue;
-
-			Polygon scaled_contour;
-			for(const auto& pt: approx_curve){
-				scaled_contour.emplace_back(pt.x/scale, pt.y/scale);
-			}
-			victim_list.push_back({victim_id++, scaled_contour});
-			// contours_approx = {approx_curve};
-			// drawContours(contours_img, contours_approx, -1, cv::Scalar(0,170,220), 3, cv::LINE_AA);
-			// std::cout << "   Approximated contour size: " << approx_curve.size() << std::endl;
-		}
-
-		// cv::imshow("Original", contours_img);
-		// cv::waitKey(1);
-
-		return true;
-	}
-
 	bool processMap(const cv::Mat& img_in, const double scale, std::vector<Polygon>& obstacle_list, std::vector<Polygon>& gate_list, const std::string& config_folder){
 		// Convert color space from BGR to HSV
 		cv::Mat hsv_img;
@@ -343,9 +298,6 @@ namespace professor {
 
 		const bool res2 = processGate(hsv_img, scale, gate_list);
 		if(!res2) std::cout << "processGate return false" << std::endl;
-
-		// const bool res3 = processVictims(hsv_img, scale, victim_list);
-		// if(!res3) std::cout << "processVictims return false" << std::endl;
 
 		return res1 && res2;
 	}
@@ -457,11 +409,14 @@ namespace professor {
 		return processRobot(hsv_img, scale, triangle, x, y, theta, ns);
 	}
 
+	//-------------------------------------------------------------------------
+	//          PLAN PATH
+	//-------------------------------------------------------------------------
 	bool planPath(const Polygon& borders, const std::vector<Polygon>& obstacle_list, const std::vector<Polygon>& gate_list, const std::vector<float> x, const std::vector<float> y, const std::vector<float> theta, std::vector<Path>& path, const std::string& config_folder){
-		float ds = 50;
-		std::cout << "fake path for 0 and 1";
+		float ds = 0.1;
+
 		// fake path for 0 and 1
-		for(float l=0, s=0; l<3; l++, s+=ds){
+		for(float l=0, s=0; l<10; l++, s+=ds){
 		    path[0].points.emplace_back(s, x[0]+ds*l, y[0], theta[0], 0.0);
 		}
 		for(float l=0, s=0; l<10; l++, s+=ds){

@@ -47,7 +47,7 @@ namespace student {
 	* @param[in]  rvec           Rotation vectors estimated linking the camera and the arena
 	* @param[in]  tvec           Translation vectors estimated for the arena
 	* @param[in]  object_points_plane  3D position of the 4 corners of the arena, following a counterclockwise order starting from the one near the red line.
-	* @param[in ] dest_image_points_plane   destinatino point in px of the object_points_plane
+	* @param[in]  dest_image_points_plane   destinatino point in px of the object_points_plane
 	* @param[out] plane_transf   plane perspective trasform (3x3 matrix)
 	* @param[in]  config_folder  A custom string from config file.
 	*/
@@ -77,15 +77,11 @@ namespace student {
 	* @param[in]  image_in       input image
 	* @param[in]  scale          1px/scale = X meters
 	* @param[out] triangle       polygon defined from triangle corners
-	* @param[out] x              x position of the robot (i.e. the baricenter of the triangle)
-	*                            in the arena reference system
-	* @param[out] y              y position of the robot (i.e. the baricenter of the triangle)
-	*                            in the arena reference system
+	* @param[out] x              x position of the robot (i.e. the baricenter of the triangle) in the arena reference system
+	* @param[out] y              y position of the robot (i.e. the baricenter of the triangle) in the arena reference system
 	* @param[out] theta          yaw of the robot in the arena reference system
-	* @param[in] ns              number of robots in the arena
+	* @param[in]  ns             number of robots in the arena
 	* @param[in]  config_folder  A custom string from config file.
 	*/
 	bool findRobot(const cv::Mat& img_in, const double scale, Polygon& triangle, double& x, double& y, double& theta, const std::string ns, const std::string& config_folder);
-
-	//bool processGtMap(std::string file_name, std::vector<Polygon>& obstacle_list, std::vector<std::pair<int,Polygon>>& victim_list, Polygon& gate, Polygon& perimeter);
 }
