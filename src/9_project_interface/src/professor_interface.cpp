@@ -414,15 +414,23 @@ namespace professor {
 	//-------------------------------------------------------------------------
 	bool planPath(const Polygon& borders, const std::vector<Polygon>& obstacle_list, const std::vector<Polygon>& gate_list, const std::vector<float> x, const std::vector<float> y, const std::vector<float> theta, std::vector<Path>& path, const std::string& config_folder){
 		float ds = 0.1;
+		float dx0 = ( ( (gate_list[0][0].x + gate_list[0][1].x + gate_list[0][2].x + gate_list[0][3].x) / 4) - x[0]) / 50;
+		float dx1 = ( ( (gate_list[0][0].x + gate_list[0][1].x + gate_list[0][2].x + gate_list[0][3].x) / 4) - x[1]) / 50;
+		float dx2 = ( ( (gate_list[0][0].x + gate_list[0][1].x + gate_list[0][2].x + gate_list[0][3].x) / 4) - x[2]) / 50;
+		float dy0 = ( ( (gate_list[0][0].y + gate_list[0][1].y + gate_list[0][2].y + gate_list[0][3].y) / 4) - y[0]) / 50;
+		float dy1 = ( ( (gate_list[0][0].y + gate_list[0][1].y + gate_list[0][2].y + gate_list[0][3].y) / 4) - y[1]) / 50;
+		float dy2 = ( ( (gate_list[0][0].y + gate_list[0][1].y + gate_list[0][2].y + gate_list[0][3].y) / 4) - y[2]) / 50;
 
-		// fake path for 0 and 1
-		for(float l=0, s=0; l<10; l++, s+=ds){
-		    path[0].points.emplace_back(s, x[0]+ds*l, y[0], theta[0], 0.0);
+		// shortest dummy paths for the 3 robots
+		for(float l=0, s=0; l<50; l++, s+=ds){
+		    path[0].points.emplace_back(s, x[0]+dx0*l, y[0]+dy0*l, theta[0], 0.0);
 		}
-		for(float l=0, s=0; l<10; l++, s+=ds){
-		    path[1].points.emplace_back(s, x[1]+ds*l, y[1], theta[1], 0.0);
+		for(float l=0, s=0; l<50; l++, s+=ds){
+		    path[1].points.emplace_back(s, x[1]+dx1*l, y[1]+dy1*l, theta[1], 0.0);
 		}
-		// no path for 2
+		for(float l=0, s=0; l<50; l++, s+=ds){
+		    path[2].points.emplace_back(s, x[2]+dx2*l, y[2]+dy2*l, theta[2], 0.0);
+		}
 
 		return true;
 	}

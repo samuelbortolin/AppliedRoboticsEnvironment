@@ -9,8 +9,6 @@
       <name>gate_1</name>
     </include>
 
-    <!-- Victim section -->
-
     <!-- Obstacle section -->    
     <include>
       <uri>model://rectangle_142</uri>
