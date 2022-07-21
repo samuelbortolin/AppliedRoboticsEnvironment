@@ -247,8 +247,7 @@ namespace professor {
 	bool processGate(const cv::Mat& hsv_img, const double scale, std::vector<Polygon>& gate_list){
 		// Find purple regions
 		cv::Mat purple_mask;
-		cv::inRange(hsv_img, cv::Scalar(45, 50, 26), cv::Scalar(100, 255, 255), purple_mask);
-		// cv::inRange(hsv_img, cv::Scalar(130, 10, 10), cv::Scalar(165, 255, 255), purple_mask);
+		cv::inRange(hsv_img, cv::Scalar(130, 10, 10), cv::Scalar(165, 255, 255), purple_mask);
 
 		std::vector<std::vector<cv::Point>> contours, contours_approx;
 		std::vector<cv::Point> approx_curve;
@@ -308,15 +307,15 @@ namespace professor {
 	bool processRobot(const cv::Mat& hsv_img, const double scale, Polygon& triangle, double& x, double& y, double& theta, const std::string ns){
 		cv::Mat robot_mask;
 		if (ns == "/my_robot_0") {
-            // Robot 0 blue
-            cv::inRange(hsv_img, cv::Scalar(90, 50, 50), cv::Scalar(140, 255, 255), robot_mask);
-	    }else if (ns == "/my_robot_1"){
-            // Robot 1 yellow
-            cv::inRange(hsv_img, cv::Scalar(15, 0, 0), cv::Scalar(36, 255, 255), robot_mask);
-        }else if (ns == "/my_robot_2"){
-            // Robot 2 green
-            cv::inRange(hsv_img, cv::Scalar(45, 50, 26), cv::Scalar(100, 255, 255), robot_mask);
-        }
+			// Robot 0 blue
+			cv::inRange(hsv_img, cv::Scalar(90, 50, 50), cv::Scalar(140, 255, 255), robot_mask);
+		}else if (ns == "/my_robot_1"){
+			// Robot 1 yellow
+			cv::inRange(hsv_img, cv::Scalar(15, 0, 0), cv::Scalar(36, 255, 255), robot_mask);
+		}else if (ns == "/my_robot_2"){
+			// Robot 2 green
+			cv::inRange(hsv_img, cv::Scalar(45, 50, 26), cv::Scalar(100, 255, 255), robot_mask);
+		}
 
 		// Process masks
 		std::vector<std::vector<cv::Point>> contours, contours_approx;
