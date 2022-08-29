@@ -34,6 +34,7 @@ alias AR_plot_dt="roslaunch project_interface graph.launch"
 
 # Files
 AR_map_file="${AR_CATKIN_ROOT}/src/0_mindstorm_simulator/2_lego_world/models/mindstorm_map/map.sdf"
+AR_sim_file="${AR_CATKIN_ROOT}/src/0_mindstorm_simulator/0_sim_common/launch/sim.launch"
 AR_interface_dir="${AR_CATKIN_ROOT}/src/9_project_interface/include"
 AR_config_dir="${AR_CATKIN_ROOT}/src/9_project_interface/config"
 
@@ -52,6 +53,4 @@ goal_id:
     nsecs: 0
   id: ''
 goal: {}" --once'
-
-
 

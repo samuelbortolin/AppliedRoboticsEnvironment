@@ -1,5 +1,5 @@
-#ifndef PATH_H
-#define PATH_H
+#ifndef UTILS_HPP
+#define UTILS_HPP
 
 #include <vector>
 #include <cmath>
@@ -63,7 +63,6 @@ struct Point {
 
 
 typedef std::vector<Point> Polygon;
-
 
 #endif
 
