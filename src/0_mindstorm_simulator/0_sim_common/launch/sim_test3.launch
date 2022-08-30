@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <param name="/use_sim_time" value="true"/>
+
+  <arg name="gui" default="false"/>
+
+  <!-- Number of robots -->
+  <arg name="n" default="3"/>
+  <!-- Robot name -->
+  <arg name="robot_0" default="my_robot_0" />
+  <arg name="robot_1" default="my_robot_1" />
+  <arg name="robot_2" default="my_robot_2" />
+  <!-- Robot default pose -->
+  <arg name="x_0"   default="0.2"/>
+  <arg name="y_0"   default="0.2"/>
+  <arg name="yaw_0" default="0"/>
+
+  <arg name="x_1"   default="0.2"/>
+  <arg name="y_1"   default="0.9"/>
+  <arg name="yaw_1" default="0"/>
+
+  <arg name="x_2"   default="1.4"/>
+  <arg name="y_2"   default="0.2"/>
+  <arg name="yaw_2" default="-1.57"/>
+
+  <!-- Launch Gazebo World -->
+  <include file="$(find lego_world)/launch/world.launch">
+    <arg name="gui" value="$(arg gui)"/>
+  </include>
+
+  <!-- Load general Robot Description -->
+  <!-- <include file="$(find lego_robot)/launch/robot_description.launch"/> -->
+
+  <!-- Robot 0 -->
+  <group ns="$(arg robot_0)">
+    <param name="tf_prefix" value="$(arg robot_0)" />
+    <!-- Load Robot in Gazebo -->
+    <include file="$(find lego_robot)/launch/spawn_gazebo.launch">
+      <arg name="robot_name" value="$(arg robot_0)"/> 
+      <arg name="x" value="$(arg x_0)"/>
+      <arg name="y" value="$(arg y_0)"/>
+      <arg name="z" value="0.0"/>
+      <arg name="roll" value="0.0"/>
+      <arg name="pitch" value="0.0"/>
+      <arg name="yaw" value="$(arg yaw_0)"/>
+    </include>
+  </group>
+  
+  <!-- Robot 1 -->
+  <group ns="$(arg robot_1)" if="$(eval arg('n')>=2)">
+    <param name="tf_prefix" value="$(arg robot_1)" />
+    <!-- Load Robot in Gazebo -->
+    <include file="$(find lego_robot)/launch/spawn_gazebo.launch">
+      <arg name="robot_name" value="$(arg robot_1)"/> 
+      <arg name="x" value="$(arg x_1)"/>
+      <arg name="y" value="$(arg y_1)"/>
+      <arg name="z" value="0.0"/>
+      <arg name="roll" value="0.0"/>
+      <arg name="pitch" value="0.0"/>
+      <arg name="yaw" value="$(arg yaw_1)"/>
+    </include>
+  </group>
+
+  <!-- Robot 2 -->
+  <group ns="$(arg robot_2)" if="$(eval arg('n')>=3)">
+    <param name="tf_prefix" value="$(arg robot_2)" />
+    <!-- Load Robot in Gazebo -->
+    <include file="$(find lego_robot)/launch/spawn_gazebo.launch">
+      <arg name="robot_name" value="$(arg robot_2)"/> 
+      <arg name="x" value="$(arg x_2)"/>
+      <arg name="y" value="$(arg y_2)"/>
+      <arg name="z" value="0.0"/>
+      <arg name="roll" value="0.0"/>
+      <arg name="pitch" value="0.0"/>
+      <arg name="yaw" value="$(arg yaw_2)"/>
+    </include>
+  </group>
+
+</launch>
+
