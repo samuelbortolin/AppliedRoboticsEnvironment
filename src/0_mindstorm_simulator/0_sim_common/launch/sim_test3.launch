@@ -21,7 +21,7 @@
 
   <arg name="x_2"   default="1.4"/>
   <arg name="y_2"   default="0.2"/>
-  <arg name="yaw_2" default="1.57"/>
+  <arg name="yaw_2" default="-1.57"/>
 
   <!-- Launch Gazebo World -->
   <include file="$(find lego_world)/launch/world.launch">
